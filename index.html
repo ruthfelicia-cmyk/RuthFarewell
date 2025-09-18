@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruth's Farewell Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 50%, #fdbb2d 100%);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            background: #f1f1f1;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .tab-button {
+            padding: 15px 25px;
+            background: #f1f1f1;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .tab-button:hover {
+            background: #e0e0e0;
+        }
+        
+        .tab-button.active {
+            background: white;
+            border-bottom: 3px solid #1a2a6c;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 30px;
+            min-height: 500px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Website Styling */
+        .welcome-screen, .letter-screen {
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .welcome-screen h2 {
+            color: #1a2a6c;
+            margin-bottom: 20px;
+        }
+        
+        .input-group {
+            margin: 30px 0;
+        }
+        
+        input {
+            padding: 15px;
+            width: 100%;
+            max-width: 400px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            border-color: #1a2a6c;
+            outline: none;
+        }
+        
+        button {
+            background: #1a2a6c;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #2a3a8c;
+        }
+        
+        .language-selector {
+            margin: 20px 0;
+        }
+        
+        .language-selector button {
+            margin: 0 10px;
+            padding: 12px 25px;
+        }
+        
+        .language-selector button.active {
+            background: #fdbb2d;
+            color: #333;
+        }
+        
+        .letter {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: left;
+            line-height: 1.6;
+            margin: 20px 0;
+            white-space: pre-line;
+        }
+        
+        .signature {
+            text-align: right;
+            margin-top: 30px;
+            font-style: italic;
+            color: #1a2a6c;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .action-buttons button {
+            background: #6c757d;
+        }
+        
+        .action-buttons button:first-child {
+            background: #1a2a6c;
+        }
+        
+        /* Instructions Styling */
+        .instructions {
+            padding: 20px;
+        }
+        
+        .instructions h2 {
+            color: #1a2a6c;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .step {
+            display: flex;
+            margin-bottom: 30px;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            background: #1a2a6c;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-content h3 {
+            margin-bottom: 10px;
+            color: #1a2a6c;
+        }
+        
+        .code-block {
+            background: #2b2b2b;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 10px 15px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .step {
+                flex-direction: column;
+            }
+            
+            .step-number {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Farewell Website for Ruth</h1>
+            <p>American Club Jakarta - Marketing and Event Asst. Manager</p>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('website')">
+                <i class="fas fa-globe"></i> Farewell Website
+            </button>
+            <button class="tab-button" onclick="showTab('instructions')">
+                <i class="fas fa-code"></i> GitHub Publishing Instructions
+            </button>
+        </div>
+        
+        <div id="website-tab" class="tab-content active">
+            <div class="welcome-screen" id="welcomeScreen">
+                <h2>Please Enter Your Name</h2>
+                <div class="input-group">
+                    <input type="text" id="userName" placeholder="Your Name" autocomplete="off">
+                    <button onclick="requestLetter()">Submit</button>
+                </div>
+                <p>Press Enter or click Submit to continue</p>
+            </div>
+            
+            <div class="letter-screen" id="letterScreen" style="display: none;">
+                <h2>Your Farewell Letter for Ruth</h2>
+                <div class="language-selector">
+                    <button id="btnEnglish" class="active" onclick="changeLanguage('english')">English</button>
+                    <button id="btnBahasa" onclick="changeLanguage('bahasa')">Bahasa Indonesia</button>
+                </div>
+                <div class="letter" id="farewellLetter"></div>
+                <div class="action-buttons">
+                    <button onclick="printLetter()">Print Letter</button>
+                    <button onclick="backToStart()">Back to Start</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="instructions-tab" class="tab-content">
+            <div class="instructions">
+                <h2>How to Publish This Website Using GitHub Pages</h2>
+                
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Create a GitHub Account</h3>
+                        <p>If you don't have one already, go to <a href="https://github.com/" target="_blank">github.com</a> and sign up for a free account.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Create a New Repository</h3>
+                        <p>Click on the "+" icon in the top right corner and select "New repository".</p>
+                        <div class="code-block">Repository name: your-username.github.io (replace with your username)</div>
+                        <p>Make sure the repository is set to <strong>Public</strong> and initialize with a README.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Upload Website Files</h3>
+                        <p>Click on "Add file" → "Upload files" and upload this HTML file. You can name it <code>index.html</code> so it loads automatically.</p>
+                        <div class="note">Note: You can also drag and drop the file directly into the repository interface.</div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Enable GitHub Pages</h3>
+                        <p>Go to Settings → Pages → Source, and select the main branch.</p>
+                        <p>Click Save, and your site will be published at <code>https://your-username.github.io</code>.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>Wait for Deployment</h3>
+                        <p>It might take a few minutes for your site to be available. Refresh the page after a few minutes.</p>
+                        <div class="note">The URL will be shown in the GitHub Pages section of your repository settings once it's deployed.</div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <div class="step-content">
+                        <h3>Share Your Website</h3>
+                        <p>Once published, share the URL with your colleagues at American Club Jakarta so they can access your farewell website.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Created for Ruth's Farewell • American Club Jakarta • Marketing and Event Department</p>
+    </footer>
+
+    <script>
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Get input field and add event listener for Enter key
+        const userNameInput = document.getElementById('userName');
+        userNameInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                requestLetter();
+            }
+        });
+        
+        // Set focus on input field when page loads
+        window.onload = function() {
+            userNameInput.focus();
+        };
+        
+        // Store current language preference
+        let currentLanguage = 'english';
+        let currentUserName = '';
+        
+        // Arrays of random phrases for letter generation
+        const englishGreetings = [
+            "Hey there, %name%!",
+            "Hi %name%!", 
+            "Hello %name%!",
+            "Hey %name%!",
+            "Hi there %name%!"
+        ];
+        
+        const englishThanks = [
+            "Thanks a ton for coming to my farewell!",
+            "I really appreciate you making it to my farewell gathering!",
+            "It means so much that you came to say goodbye!",
+            "So glad you could make it to my farewell!",
+            "Thank you for being part of my farewell celebration!"
+        ];
+        
+        const englishMemories = [
+            "I've had an absolute blast working with you these past few months.",
+            "Working with you has been one of the highlights of my time here.",
+            "I'll always cherish the fun times we had working together.",
+            "Some of my favorite memories here are of our collaborations.",
+            "I'm really going to miss our daily chats and working together."
+        ];
+        
+        const englishCompliments = [
+            "You've been an awesome colleague and an even better friend.",
+            "Your positive energy always made my day better.",
+            "I've always admired your creativity and dedication.",
+            "Your sense of humor made even the busiest days enjoyable.",
+            "You've been such a supportive and kind teammate."
+        ];
+        
+        const englishFuture = [
+            "Let's definitely stay in touch!",
+            "I hope we can keep connected even after I leave.",
+            "Don't be a stranger - let's keep in contact!",
+            "I'd love to stay friends and keep up with what you're doing.",
+            "Let's make sure this isn't goodbye forever!"
+        ];
+        
+        const englishSignoffs = [
+            "Wishing you all the best!",
+            "Take care and see you soon!",
+            "With lots of love and best wishes,",
+            "Stay awesome and keep in touch!",
+            "Can't wait to see what amazing things you'll do next!"
+        ];
+        
+        // Bahasa Indonesia phrases
+        const bahasaGreetings = [
+            "Hai %name%!",
+            "Halo %name%!",
+            "Hey %name%!",
+            "Hai sobat %name%!",
+            "Halo teman %name%!"
+        ];
+        
+        const bahasaThanks = [
+            "Terima kasih banyak sudah datang ke acara perpisahan saya!",
+            "Aku sangat menghargai kedatanganmu di acara perpisahanku!",
+            "Berarti banget kamu datang untuk mengucapkan selamat tinggal!",
+            "Senang sekali kamu bisa hadir di acara perpisahanku!",
+            "Terima kasih sudah menjadi bagian dari perayaan perpisahanku!"
+        ];
+        
+        const bahasaMemories = [
+            "Aku sangat menikmati bekerja denganmu selama beberapa bulan terakhir.",
+            "Bekerja denganmu adalah salah satu hal terbaik selama aku di sini.",
+            "Aku akan selalu mengingat kenangan seru kita bekerja bersama.",
+            "Beberapa kenangan favoritku di sini adalah ketika kita berkolaborasi.",
+            "Aku akan sangat merindukan obrolan sehari-hari dan kerja sama kita."
+        ];
+        
+        const bahasaCompliments = [
+            "Kamu adalah rekan kerja yang luar biasa dan teman yang bahkan lebih baik.",
+            "Energi positifmu selalu membuat hariku lebih baik.",
+            "Aku selalu mengagumi kreativitas dan dedikasimu.",
+            "Selera humormu membuat hari-hari tersibuk pun tetap menyenangkan.",
+            "Kamu adalah rekan tim yang sangat suportif dan baik hati."
+        ];
+        
+        const bahasaFuture = [
+            "Pastinya kita harus tetap terhubung!",
+            "Aku harap kita bisa tetap berhubungan bahkan setelah aku pergi.",
+            "Jangan jadi orang asing - ayo tetap kontak!",
+            "Aku ingin tetap berteman dan mengikuti kabarmu.",
+            "Ayo pastikan ini bukan selamat tinggal selamanya!"
+        ];
+        
+        const bahasaSignoffs = [
+            "Semoga yang terbaik untukmu!",
+            "Jaga diri dan sampai jumpa!",
+            "Dengan banyak cinta dan harapan baik,",
+            "Tetap luar biasa dan jangan lupa hubungi aku!",
+            "Tidak sabar untuk melihat hal-hal hebat yang akan kamu lakukan!"
+        ];
+        
+        // Function to get a random element from an array
+        function getRandomElement(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+        
+        // Function to show the farewell letter
+        function requestLetter() {
+            const userName = userNameInput.value.trim();
+            
+            if (userName === '') {
+                alert('Please enter your name before continuing.');
+                userNameInput.focus();
+                return;
+            }
+            
+            currentUserName = userName;
+            
+            // Hide welcome screen and show letter screen
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('letterScreen').style.display = 'block';
+            
+            // Generate the letter
+            generateLetter();
+        }
+        
+        // Function to change language
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active button state
+            if (lang === 'english') {
+                document.getElementById('btnEnglish').classList.add('active');
+                document.getElementById('btnBahasa').classList.remove('active');
+            } else {
+                document.getElementById('btnEnglish').classList.remove('active');
+                document.getElementById('btnBahasa').classList.add('active');
+            }
+            
+            // Regenerate the letter
+            generateLetter();
+        }
+        
+        // Function to generate the farewell letter based on selected language
+        function generateLetter() {
+            const letterElement = document.getElementById('farewellLetter');
+            let letterContent = '';
+            
+            if (currentLanguage === 'english') {
+                letterContent = `${getRandomElement(englishGreetings).replace('%name%', currentUserName)}
+
+${getRandomElement(englishThanks)}
+
+${getRandomElement(englishMemories)} ${getRandomElement(englishCompliments)}
+
+${getRandomElement(englishFuture)} You can reach me at ruth.email@example.com or connect with me on LinkedIn.
+
+${getRandomElement(englishSignoffs)}
+
+Ruth
+Marketing and Event Asst. Manager
+American Club Jakarta`;
+            } else {
+                letterContent = `${getRandomElement(bahasaGreetings).replace('%name%', currentUserName)}
+
+${getRandomElement(bahasaThanks)}
+
+${getRandomElement(bahasaMemories)} ${getRandomElement(bahasaCompliments)}
+
+${getRandomElement(bahasaFuture)} Kamu bisa menghubungi aku di ruth.email@example.com atau terhubung dengan aku di LinkedIn.
+
+${getRandomElement(bahasaSignoffs)}
+
+Ruth
+Asst. Manager Marketing dan Event
+American Club Jakarta`;
+            }
+            
+            letterElement.innerHTML = letterContent;
+        }
+        
+        // Function to print the letter
+        function printLetter() {
+            const printContent = document.getElementById('farewellLetter').innerHTML;
+            const originalContent = document.body.innerHTML;
+            
+            document.body.innerHTML = `
+                <div style="padding: 40px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6;">
+                    <h2 style="text-align: center; color: #1a2a6c; margin-bottom: 20px;">Farewell Letter for Ruth</h2>
+                    <div style="white-space: pre-line;">${printContent}</div>
+                </div>
+            `;
+            
+            window.print();
+            document.body.innerHTML = originalContent;
+            location.reload();
+        }
+        
+        // Function to go back to the start
+        function backToStart() {
+            document.getElementById('letterScreen').style.display = 'none';
+            document.getElementById('welcomeScreen').style.display = 'block';
+            userNameInput.value = '';
+            userNameInput.focus();
+        }
+    </script>
+</body>
+</html>
